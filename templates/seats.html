@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Seats</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .show-info {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .screen {
+            width: 70%;
+            margin: 20px auto;
+            padding: 12px;
+            background: #333;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .seats {
+            display: grid;
+            grid-template-columns: repeat(6, 60px);
+            gap: 12px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .seat {
+            padding: 12px 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        .seat:hover {
+            background: #388E3C;
+        }
+
+        .booked {
+            background: #777;
+            cursor: not-allowed;
+        }
+
+        .selected {
+            background: #2196F3;
+        }
+
+        .legend {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .available-box,
+        .selected-box,
+        .booked-box {
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .available-box {
+            background: #4CAF50;
+        }
+
+        .selected-box {
+            background: #2196F3;
+        }
+
+        .booked-box {
+            background: #777;
+        }
+
+        #selectedSeats {
+            text-align: center;
+            font-size: 18px;
+            margin: 15px;
+        }
+
+        #total {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .continue-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Select Your Seats</h1>
+
+    <div class="show-info">
+        <h2>{{ show.movie_title }}</h2>
+
+        <p>
+            {{ show.theatre_name }} - {{ show.city }}
+        </p>
+
+        <p>
+            Screen: {{ show.screen_name }}
+        </p>
+
+        <p>
+            Date: {{ show.show_date }}
+            |
+            Time: {{ show.show_time }}
+        </p>
+
+        <p>
+            Ticket Price: ₹{{ show.ticket_price }}
+        </p>
+    </div>
+
+    <div class="screen">
+        SCREEN
+    </div>
+
+    <div class="legend">
+        <span class="available-box">Available</span>
+        <span class="selected-box">Selected</span>
+        <span class="booked-box">Booked</span>
+    </div>
+
+    <form method="POST" action="/booking/summary">
+
+        <div class="seats">
+
+            {% for seat in seats %}
+
+                {% if seat.seat_id in booked_seat_ids %}
+
+                    <button
+                        type="button"
+                        class="seat booked"
+                        disabled>
+                        {{ seat.seat_number }}
+                    </button>
+
+                {% else %}
+
+                    <button
+                        type="button"
+                        class="seat"
+                        onclick="selectSeat(this, {{ seat.seat_id }}, '{{ seat.seat_number }}')">
+                        {{ seat.seat_number }}
+                    </button>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+
+        <input type="hidden" name="show_id" value="{{ show.show_id }}">
+
+        <input
+            type="hidden"
+            name="selected_seats"
+            id="selectedSeatsInput">
+
+        <div id="selectedSeats">
+            Selected Seats: None
+        </div>
+
+        <div id="total">
+            Total: ₹0
+        </div>
+
+        <button
+            type="submit"
+            class="continue-btn"
+            onclick="return validateSeats()">
+
+            Continue to Booking
+
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+
+    let selectedSeats = [];
+
+    function selectSeat(button, seatId, seatNumber) {
+
+        if (selectedSeats.some(seat => seat.id === seatId)) {
+
+            selectedSeats = selectedSeats.filter(
+                seat => seat.id !== seatId
+            );
+
+            button.classList.remove("selected");
+
+        } else {
+
+            selectedSeats.push({
+                id: seatId,
+                number: seatNumber
+            });
+
+            button.classList.add("selected");
+        }
+
+        updateSelection();
+    }
+
+    function updateSelection() {
+
+        const seatNumbers =
+            selectedSeats.map(seat => seat.number);
+
+        document.getElementById("selectedSeats").innerText =
+            seatNumbers.length > 0
+            ? "Selected Seats: " + seatNumbers.join(", ")
+            : "Selected Seats: None";
+
+        document.getElementById("total").innerText =
+            "Total: ₹" +
+            (selectedSeats.length * {{ show.ticket_price }});
+
+        document.getElementById("selectedSeatsInput").value =
+            selectedSeats.map(seat => seat.id).join(",");
+    }
+
+    function validateSeats() {
+
+        if (selectedSeats.length === 0) {
+
+            alert("Please select at least one seat.");
+
+            return false;
+        }
+
+        return true;
+    }
+
+</script>
+
+</body>
+</html>

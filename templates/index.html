@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Movie Ticket Booking System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            margin: 30px auto;
+        }
+
+        .movies {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .movie-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .movie-card h2 {
+            margin-top: 0;
+        }
+
+        .rating {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎬 Movie Ticket Booking System</h1>
+    <p>Browse Movies and Book Your Tickets</p>
+</header>
+
+<div class="container">
+
+    <h2>Available Movies</h2>
+
+    <div class="movies">
+
+        {% for movie in movies %}
+
+        <div class="movie-card">
+
+            <h2>{{ movie.title }}</h2>
+
+            <p>
+                <strong>Genre:</strong>
+                {{ movie.genre }}
+            </p>
+
+            <p>
+                <strong>Language:</strong>
+                {{ movie.language }}
+            </p>
+
+            <p>
+                <strong>Duration:</strong>
+                {{ movie.duration_minutes }} minutes
+            </p>
+
+            <p class="rating">
+                ⭐ Rating: {{ movie.rating }}
+            </p>
+
+            <p>
+                {{ movie.description }}
+            </p>
+<a href="{{ url_for('shows', movie_id=movie.movie_id) }}">
+    <button>View Shows</button>
+</a>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

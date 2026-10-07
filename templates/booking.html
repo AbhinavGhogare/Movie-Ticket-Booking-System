@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Summary</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .details {
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+
+        .seats {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .seat {
+            background: #2196F3;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+
+        .total {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        button {
+            display: block;
+            margin: auto;
+            padding: 12px 30px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Booking Summary</h1>
+
+    <div class="details">
+
+        <p>
+            <strong>Movie:</strong>
+            {{ show.movie_title }}
+        </p>
+
+        <p>
+            <strong>Theatre:</strong>
+            {{ show.theatre_name }}, {{ show.city }}
+        </p>
+
+        <p>
+            <strong>Screen:</strong>
+            {{ show.screen_name }}
+        </p>
+
+        <p>
+            <strong>Date:</strong>
+            {{ show.show_date }}
+        </p>
+
+        <p>
+            <strong>Time:</strong>
+            {{ show.show_time }}
+        </p>
+
+        <p>
+            <strong>Ticket Price:</strong>
+            ₹{{ show.ticket_price }}
+        </p>
+
+    </div>
+
+    <h3>Selected Seats</h3>
+
+    <div class="seats">
+
+        {% for seat in seats %}
+
+            <div class="seat">
+                {{ seat.seat_number }}
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+    <div class="total">
+        Total Amount: ₹{{ total_amount }}
+    </div>
+
+    <form method="POST" action="/booking/confirm">
+
+        <input
+            type="hidden"
+            name="show_id"
+            value="{{ show.show_id }}">
+
+        <input
+            type="hidden"
+            name="seat_ids"
+            value="{% for seat in seats %}{{ seat.seat_id }}{% if not loop.last %},{% endif %}{% endfor %}">
+
+        <button type="submit">
+            Confirm Booking
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

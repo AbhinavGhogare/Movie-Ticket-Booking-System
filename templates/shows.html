@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Movie Shows</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            margin: 30px auto;
+        }
+
+        .show-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        button {
+            background: #222;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>🎬 Available Shows</h1>
+
+</header>
+
+<div class="container">
+
+    {% if shows %}
+
+        {% for show in shows %}
+
+        <div class="show-card">
+
+            <h2>{{ show.movie_title }}</h2>
+
+            <p>
+                <strong>Theatre:</strong>
+                {{ show.theatre_name }}
+            </p>
+
+            <p>
+                <strong>City:</strong>
+                {{ show.city }}
+            </p>
+
+            <p>
+                <strong>Screen:</strong>
+                {{ show.screen_name }}
+            </p>
+
+            <p>
+                <strong>Date:</strong>
+                {{ show.show_date }}
+            </p>
+
+            <p>
+                <strong>Time:</strong>
+                {{ show.show_time }}
+            </p>
+
+            <p>
+                <strong>Ticket Price:</strong>
+                ₹{{ show.ticket_price }}
+            </p>
+
+            <a href="/seats/{{ show.show_id }}">
+
+                <button>
+                    Select Seats
+                </button>
+
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <h2>No shows available for this movie.</h2>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>

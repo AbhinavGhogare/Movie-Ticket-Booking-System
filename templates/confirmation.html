@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Booking Confirmed</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .success {
+            font-size: 60px;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        .details {
+            margin: 25px 0;
+            line-height: 2;
+            font-size: 18px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="success">✓</div>
+
+    <h1>Booking Confirmed!</h1>
+
+    <div class="details">
+
+        <p>
+            <strong>Booking ID:</strong>
+            {{ booking_id }}
+        </p>
+
+        <p>
+            <strong>Total Amount:</strong>
+            ₹{{ total_amount }}
+        </p>
+
+        <p>
+            <strong>Transaction Reference:</strong>
+            {{ transaction_reference }}
+        </p>
+
+        <p>
+            <strong>Payment Status:</strong>
+            SUCCESS
+        </p>
+
+    </div>
+
+    <a href="/" class="home-btn">
+        Back to Home
+    </a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Login</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 40px;
+        }
+
+        .container {
+            width: 400px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #2196F3;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Customer Login</h1>
+
+    <form method="POST" action="/login">
+
+        <label>Email</label>
+        <input
+            type="email"
+            name="email"
+            required>
+
+        <label>Password</label>
+        <input
+            type="password"
+            name="password"
+            required>
+
+        <button type="submit">
+            Login
+        </button>
+
+    </form>
+
+    <div class="register-link">
+        New customer?
+        <a href="/register">Create Account</a>
+    </div>
+
+</div>
+
+</body>
+</html>
